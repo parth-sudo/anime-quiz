@@ -25,10 +25,10 @@ export default function OptionHandler(props) {
       }
 
       props.onOptionClick(clicked);
+      console.log("HEEEy");
   }
 
-  console.log('hi');
-
+   
   let style = {backgroundColor : bgcolor, color : textcolor};
   console.log(style);
     return (

@@ -1,0 +1,33 @@
+.option1{
+    width: 200px;
+    margin-right: 90px;
+    display: flex;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.option2 {
+    width: 200px;
+    margin-left: 90px;
+    display: flex;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.option3 {
+    width: 200px;
+    margin-right: 90px;
+    display: flex;
+    background-color: black;
+    color: white;
+}
+
+.option4 {
+    width: 200px;
+    margin-left: 90px;
+    display: flex;
+    background-color: black;
+    color: white;
+}

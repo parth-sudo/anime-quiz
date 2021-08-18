@@ -6,29 +6,9 @@ import OptionHandler from "./OptionHandler.js";
 
 //typeracer
 function QuestionBox(props) {
-  const { questions, choices, worths, worthID, setWorthID } = props;
-
-  // button states
-  // const [bgcolor, setBgcolor] = useState(['black', 'black', 'black', 'black']);
-  // const [textcolor, setTextcolor] = useState(['white', 'white', 'white', 'white'])
-  // const [buttonClicked, setButtonClicked] = useState([false, false, false, false]);
-  const [disabled, setDisabled] = useState(true);
-
-  function optionHandler(clicked) {
-        setDisabled(!clicked);
-  }
+  const { question, worthID, setWorthID } = props;
 
   function startGame() {
-    const question_items = questions.filter((question) => {
-      return question.worth === worthID;
-    });
-    const question =
-      question_items[Math.floor(Math.random() * question_items.length)];
-    console.log(question);
-    const choice_items = choices.filter(
-      (choice) => choice.question === question.id
-    );
-    console.log(choice_items);
 
     return (
       <div className="typeRacer">
@@ -38,29 +18,10 @@ function QuestionBox(props) {
 
         <div className="typeRacer">
           <div className="wordOutput">
-            <p> Q- {question.title} </p>
+            <p> Q {worthID}. {question.title} </p>
           </div>
 
           {/* set timeout of 7s. */}
-          {choice_items.map((option) => {
-            return (
-              <div key={option.position}>
-                {/* {console.log(option.position)} */}
-                <OptionHandler 
-                option={option} 
-                id={option.position} 
-                onOptionClick = {optionHandler}
-                />
-              </div>
-            );
-          })}
-
-          <div style={{ textAlign: "center", backgroundColor: "white" }}>
-            <Button disabled={disabled} color="primary">
-              Freeze
-            </Button>
-            <Button color="primary">Check Answer</Button>
-          </div>
         </div>
       </div>
     );
@@ -68,13 +29,7 @@ function QuestionBox(props) {
 
   return (
     <div className="typeRacer">
-      {worthID === 0 ? (
-        <Button color="secondary" onClick={() => setWorthID(worthID + 1)}>
-          Ready?
-        </Button>
-      ) : null}
-
-      {worthID === 1 ? startGame() : null}
+          {startGame()}
     </div>
   );
 }

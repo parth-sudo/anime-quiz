@@ -25,6 +25,15 @@ class CreateQuestionView(generics.CreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
+class UpdateQuestionView(generics.UpdateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+
+    def get(self, request, pk, *args, **kwargs):
+        question = Question.objects.get(pk=pk)
+        serializer = QuestionSerializer(question)
+        return Response(serializer.data)
+
 class ListQuestionView(generics.ListAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer

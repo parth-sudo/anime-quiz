@@ -1,41 +1,57 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import '../styles/QuestionBox.css';
 import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 
 export default function OptionHandler(props) {
-    const {option, id} = props;
+    const {option, id, disableOption, setChosen, worthID} = props;
    
-    // const [optionColors, setOptionColors] = useState(['black', 'black', 'black', 'black']);
-    const [clicked, setClicked] = useState(false);
+    const [clicked, setClicked] = useState(true);
     const [bgcolor, setBgcolor] = useState('black');
     const [textcolor, setTextcolor] = useState('white');
+    const [prevWorthID, setPrevWorthID] = useState(0);
+
 
   function handleOptionClick() {
 
       setClicked(!clicked);
       if(clicked) {
-          console.log('clicked');
+          setChosen(option.is_correct);
           setBgcolor('yellow');
           setTextcolor('black');
       }
       else {
-        console.log('un clicked');
-        setBgcolor('black');
-        setTextcolor('white');
+          if(disableOption === false) {
+            setChosen(false);
+            setBgcolor('black');
+            setTextcolor('white');
+          }
+
       }
+    // console.log(clicked);
 
       props.onOptionClick(clicked);
-      console.log("HEEEy");
+ 
   }
 
-   
+  function resetOptions() {
+      if(worthID > prevWorthID) {
+          setBgcolor('black');
+          setTextcolor('white');
+          setClicked(true);
+          setPrevWorthID(worthID);
+      }
+  }
+
+
   let style = {backgroundColor : bgcolor, color : textcolor};
-  console.log(style);
+
     return (
         <div>
-            <button onClick={handleOptionClick}
+            <button disabled={disableOption && bgcolor!=='yellow'} onClick={handleOptionClick}
             style={style} 
             className={`option${id}`}> {option.choice} </button>
+            {resetOptions()}
+
         </div>
     )
 }

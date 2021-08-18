@@ -6,13 +6,16 @@ function Ladder(props) {
     const {worths, worthID} = props;
     const [prevWorthID, setPrevWorthID] = useState(worthID);
 
-    function isCheckPoint(id, price) {
-        if(id === 5 || id === 10) {
+    function ladderChecker(id, price) {
+        if(id === 5 || id === 10 || id === 15) {
             return (<button style={{background:'black', color:'yellow'}}> {id}. ₹{price} </button>);
+        }
+        else if(worthID > id) {
+           return(<button className="crossed-line"> {id}. ₹{price} </button>) 
         }
         return (<button className="button_style"> {id}. ₹{price} </button>);
     }
-  
+
     return (
         <div className="ladder">
             <div className="title">
@@ -24,15 +27,12 @@ function Ladder(props) {
                 </div>
 
             {/* cover the checkpoint. */}
-            { (prevWorthID !== worthID && prevWorthID > 0) ? setPrevWorthID(worthID) : null}
+ 
              {  worths.slice(0).reverse().map((w) => {
                    return (
-                    
-                       <div key={w.id} className="checkpoints">
-                         {(prevWorthID === worthID && prevWorthID > 0)
-                                    ?  <button className="crossed-line"> {w.id}. ₹{w.cost} </button>  
-                                    : isCheckPoint(w.id, w.cost) }
-                       </div>
+                    <div key={w.id} className="checkpoints">
+                        {ladderChecker(w.id, w.cost)}
+                    </div>
                    )
                  }) 
              }        

@@ -7,24 +7,23 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
 } from "react-router-dom";
 
 export default function Home() {
   
-    const renderHome = () => {
-        console.log('Hi')
-        return(
-           <Grid item xs={12} align="center">
-              <Typography variant="h3" compact="h3">
-              <p style={{'color': 'white'}}> This is the home page. </p>
-                <Button color="primary" to = "/game" component={Link}> 
-               Click here to play
-              </Button>
-              </Typography>
-          </Grid>
-        )
-    }
+const renderHome = () => {
+    console.log('Hi')
+    return(
+        <Grid item xs={12} align="center">
+          <Typography variant="h3" compact="h3">
+          <p style={{'color': 'white'}}> This is the home page. </p>
+            <Button color="primary" to = "/game" component={Link}> 
+            Click here to play
+          </Button>
+          </Typography>
+      </Grid>
+    )
+}
 
     return (
         <Router>

@@ -3,12 +3,13 @@ import '../styles/QuestionBox.css';
 import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 
 export default function OptionHandler(props) {
-    const {option, id, disableOption, setChosen, worthID} = props;
+    const {option, id, disableOption, setChosen, worthID, cabClicked} = props;
    
     const [clicked, setClicked] = useState(true);
     const [bgcolor, setBgcolor] = useState('black');
     const [textcolor, setTextcolor] = useState('white');
     const [prevWorthID, setPrevWorthID] = useState(0);
+    const [back, setBack] = useState('black');
 
 
   function handleOptionClick() {
@@ -42,14 +43,37 @@ export default function OptionHandler(props) {
       }
   }
 
-
+//   const foo = () => {
+//       if(cabClicked) {
+//           if(option.is_correct) {
+//             setBack('green');
+//           }
+//       }
+//       else {
+//           setBack(bgcolor);
+//       }
+//   }
   let style = {backgroundColor : bgcolor, color : textcolor};
+
+  const alphabet = () => {
+      if(id === 1) {
+          return <p> A </p>;
+      }
+      else if(id === 2) {
+        return <p> B </p>;
+      }
+      else if(id === 3) {
+        return <p> C </p>;
+      }
+      return <p> D </p>;
+  }
 
     return (
         <div>
+    
             <button disabled={disableOption && bgcolor!=='yellow'} onClick={handleOptionClick}
             style={style} 
-            className={`option${id}`}> {option.choice} </button>
+            className={`option${id}`}> {alphabet()}. {option.choice} </button>
             {resetOptions()}
 
         </div>

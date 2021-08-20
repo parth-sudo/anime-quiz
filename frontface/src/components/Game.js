@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import Container from "./Container";
 import QuestionBox from "./QuestionBox";
 import Ladder from "./Ladder.js";
 import OptionBox from "./OptionBox.js";
+import Pause from "./Pause";
 import "../styles/Game.css";
 import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
+import {Link} from "react-router-dom";
+import Context from '../store/pause-context.js';
+
 
 export default function Game() {
   // get all choices, questions, worth.
@@ -14,8 +18,12 @@ export default function Game() {
   const [questions, setQuestions] = useState([]);
   
   const [worthID, setWorthID] = useState(0);
+  const [prevID, setPrevID] = useState(1);
   const [rightAnswer, setRightAnswer] = useState(false);
   const [gameLost, setGameLost] = useState(false);
+
+  const [timerPaused, setTimerPaused] = useState(false);
+  
 
   useEffect(() => {
     fetch("http://localhost:8000/api/list-worth/")
@@ -41,85 +49,122 @@ export default function Game() {
   }, []);
 
 
-
   function boxHolder() {
     const question_items = questions.filter((question) => {
       return question.worth === worthID;
     });
     const question = question_items[Math.floor(Math.random() * question_items.length)];
-    console.log(question);
+
     const choice_items = choices.filter( 
       (choice) => choice.question === question.id
     );
-    console.log(choice_items);
-
 
     return (
       <Container>
+        <Context.Provider value = {{timerPaused, setTimerPaused}}>
+          <QuestionBox worthID={worthID} 
+          setWorthID={setWorthID}
+          question={question}
+          />
 
-        <QuestionBox worthID={worthID} 
-        setWorthID={setWorthID}
-        question={question}
-         />
-
-        <OptionBox choice_items={choice_items} 
-        worthID = {worthID} 
-        setWorthID={setWorthID}
-        getResult = {getResult}
-        />
-
+          <OptionBox choice_items={choice_items} 
+          // setRightAnswer = {setRightAnswer}
+          worthID = {worthID} 
+          setWorthID={setWorthID}
+          getResult = {getResult}
+          />
+        </Context.Provider>
       </Container>
     )
   }
 
-  function putNextQuestion() {
-    console.log(worthID);
-    //  setWorthID(worthID + 1);
-     setRightAnswer(false);
-      return (
-        <div className="container">
-          {boxHolder()}
-        </div>
-      )
-  }
-
   function getResult(isCorrect) {
     if(isCorrect) {
-      console.log("absolutely true");
-      setRightAnswer(true);
+      // console.log(" func get result says absolutely true");
       setWorthID(worthID + 1);
     }
     else {
       setGameLost(true);
+      console.log(gameLost);
+      console.log("galat jawab hai lololol.");
     }
 
   }
+ 
+ function gameLostMessage() {
+  const question_items = questions.filter((question) => {
+    return question.worth === worthID;
+  });
+  const question = question_items[Math.floor(Math.random() * question_items.length)];
+  const choice_items = choices.filter( 
+    (choice) => choice.question === question.id
+  );
 
-  const handleCorrectAnswer = () => {
-    console.log("handle correct answer fucntion");
-    console.log(rightAnswer);
+  let ans = null;
+  choice_items.map((choice) => {
+    if(choice.is_correct) {
+      ans = choice;
+    }
+  })
     return (
       <div> 
-        <Button onClick={putNextQuestion}> Correct Answer! Next</Button>
+        <h2 style={{backgroundColor: 'white', color: 'black'}}> Wrong! The correct answer is - {ans.position}. <i>{ans.choice}</i>. </h2>
+        <h3 style={{backgroundColor: 'white', color: 'black'}}> You take away ₹{amountWonOnLosing()} </h3>
+        <Button color="secondary" to = "/" component={Link}> Back to Home </Button>
       </div>
     )
+ }
+
+ const amountWonOnLosing = () => {
+  let i = worthID;
+  if(i >= 5 && i < 10) {
+    return worths[5].cost;
+  }
+  else if(i >= 10 && i < 15) {
+    return worths[10].cost;
   }
 
+  return 0; 
+}
+
+  function putNextQuestion() {
+    console.log(worthID);
+    return (
+      <div style={{alignItems : 'center'}}> 
+       <button style={{color: 'black'}} onClick={() => setRightAnswer(true)}> Right answer! Next</button>
+     </div> 
+   )
+  }
+
+  const resetStates = () => {
+        if(rightAnswer) {
+          setRightAnswer(false);
+          setPrevID(worthID);
+        }
+  }
  
   return (
     <div className="game">
 
-      {rightAnswer ? handleCorrectAnswer() : null}
       {/* {gameLost ? : } */}
 
+      {/* ready button */}
       <div className="container"> 
         {worthID === 0 ? (
-          <Button color="secondary" onClick={() => setWorthID(worthID + 1)}>
+          <Button style={{alignItems : 'center'}} color="secondary" onClick={() => setWorthID(worthID + 1)}>
             Ready?
           </Button>
         ) : null}
-   
-      {worthID > 0 ? boxHolder() : null}
+
+      {worthID === 1 ? boxHolder() : null}
+    
+      {prevID < worthID ? putNextQuestion() : null}
+      {resetStates()}
+
+      {prevID === worthID && prevID > 1 ? boxHolder() : null}
+
+      {gameLost ? gameLostMessage() : null}
+
       </div>
       <Ladder worthID={worthID} worths={worths} />
 

@@ -12,7 +12,7 @@ function QuestionBox(props) {
 
   const [animation, setAnimation] = useState(null);
 
-  const [seconds, setSeconds] = useState(30);
+  const [seconds, setSeconds] = useState(45);
   
   useEffect(() => {
     const interval = setInterval(() => {

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import '../styles/QuestionBox.css';
+import '../styles/OptionBox.css';
 import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 
 export default function OptionHandler(props) {
@@ -57,15 +57,15 @@ export default function OptionHandler(props) {
 
   const alphabet = () => {
       if(id === 1) {
-          return <p> A </p>;
+          return <span> A </span>;
       }
       else if(id === 2) {
-        return <p> B </p>;
+        return <span> B </span>;
       }
       else if(id === 3) {
-        return <p> C </p>;
+        return <span> C </span>;
       }
-      return <p> D </p>;
+      return <span> D </span>;
   }
 
     return (
@@ -73,9 +73,11 @@ export default function OptionHandler(props) {
     
             <button disabled={disableOption && bgcolor!=='yellow'} onClick={handleOptionClick}
             style={style} 
-            className={`option${id}`}> {alphabet()}. {option.choice} </button>
+            className="option"> {alphabet()}. {option.choice} </button>
             {resetOptions()}
 
         </div>
     )
 }
+
+// {`option${id}`}

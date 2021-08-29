@@ -19,13 +19,14 @@ function OptionBox(props) {
   function optionHandler(clicked) {
     setDisableFreeze(!clicked);
     console.log("disabled-");
-    console.log(disableFreeze);
  }
  
  function freezeOptions() {
  // also stop the timer.
     setShowCAB(!showCAB);
-    setTimerPaused(true);
+    // setTimerPaused(true);
+    console.log("worthId after freezing-");
+    console.log(worthID);
  }
 
  function checkAnswer() {

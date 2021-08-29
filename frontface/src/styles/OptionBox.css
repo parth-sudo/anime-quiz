@@ -1,0 +1,11 @@
+.option{
+    width: 200px;
+    margin-top : 22px;
+    display: flex;
+    justify-content: center;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: large;
+      background-color: black;
+    color: white;
+}

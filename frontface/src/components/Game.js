@@ -50,6 +50,7 @@ export default function Game() {
 
 
   function boxHolder() {
+    console.log("boxHolder rendering");
     const question_items = questions.filter((question) => {
       return question.worth === worthID;
     });
@@ -78,6 +79,7 @@ export default function Game() {
     )
   }
 
+  // prop function.
   function getResult(isCorrect) {
     if(isCorrect) {
       // console.log(" func get result says absolutely true");
@@ -90,6 +92,19 @@ export default function Game() {
     }
 
   }
+
+  const alphabet = (id) => {
+    if(id === 1) {
+        return <span> A. </span>;
+    }
+    else if(id === 2) {
+      return <span> B. </span>;
+    }
+    else if(id === 3) {
+      return <span> C. </span>;
+    }
+    return <span> D. </span>;
+}
  
  function gameLostMessage() {
   const question_items = questions.filter((question) => {
@@ -108,7 +123,7 @@ export default function Game() {
   })
     return (
       <div> 
-        <h2 style={{backgroundColor: 'white', color: 'black'}}> Wrong! The correct answer is - {ans.position}. <i>{ans.choice}</i>. </h2>
+        <h2 style={{backgroundColor: 'white', color: 'black'}}> Wrong! The correct answer is <i> {alphabet(ans.position)} {ans.choice}</i>. </h2>
         <h3 style={{backgroundColor: 'white', color: 'black'}}> You take away ₹{amountWonOnLosing()} </h3>
         <Button color="secondary" to = "/" component={Link}> Back to Home </Button>
       </div>
@@ -142,30 +157,48 @@ export default function Game() {
           setPrevID(worthID);
         }
   }
+
+  function continueGame() {
+    return (
+      <div className="game">
+
+        <div className="container"> 
+          
+          {worthID === 1 ? boxHolder() : null}
+        
+          {prevID < worthID ? putNextQuestion() : null}
+          {resetStates()}
+
+          {prevID === worthID && prevID > 1 ? boxHolder() : null}
+
+
+        </div>
+
+    </div>
+    )
+      
+  }
  
   return (
     <div className="game">
 
       {/* {gameLost ? : } */}
+    
 
       {/* ready button */}
       <div className="container"> 
-        {worthID === 0 ? (
-          <Button style={{alignItems : 'center'}} color="secondary" onClick={() => setWorthID(worthID + 1)}>
-            Ready?
-          </Button>
-        ) : null}
 
-      {worthID === 1 ? boxHolder() : null}
-    
-      {prevID < worthID ? putNextQuestion() : null}
-      {resetStates()}
+      {worthID === 0 ? (
+                <Button style={{alignItems : 'center'}} color="secondary" onClick={() => setWorthID(worthID + 1)}>
+                  Ready?
+                </Button>
+              ) : null}
+   
 
-      {prevID === worthID && prevID > 1 ? boxHolder() : null}
-
-      {gameLost ? gameLostMessage() : null}
+        {gameLost ? gameLostMessage() : continueGame()}
 
       </div>
+
       <Ladder worthID={worthID} worths={worths} />
 
     </div>

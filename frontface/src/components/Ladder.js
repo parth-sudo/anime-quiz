@@ -8,7 +8,7 @@ function Ladder(props) {
 
     function ladderChecker(id, price) {
         if(id === 5 || id === 10 || id === 15) {
-            return (<button style={{background:'black', color:'yellow'}}> {id}. ₹{price} </button>);
+         return (<button className="checkpoint"> {id}. ₹{price} </button>);
         }
         else if(worthID > id) {
            return(<button className="crossed-line"> {id}. ₹{price} </button>) 
@@ -27,15 +27,20 @@ function Ladder(props) {
                 </div>
 
             {/* cover the checkpoint. */}
- 
-             {  worths.slice(0).reverse().map((w) => {
-                   return (
-                    <div key={w.id} className="checkpoints">
-                        {ladderChecker(w.id, w.cost)}
-                    </div>
-                   )
-                 }) 
-             }        
+
+            <div className="lcp">
+
+                {  worths.slice(0).reverse().map((w) => {
+                    return (
+                        <div key={w.id} className="checkpoints">
+                            {ladderChecker(w.id, w.cost)}
+                        </div>
+                    )
+                    }) 
+                }    
+                
+            </div>
+              
 
             </div>
         </div>

@@ -23,12 +23,12 @@ function Ladder(props) {
             </div>
             <div style={{textAlign: 'center'}}>
                 <div>
-                    <h3> Lifelines </h3>
+                    <h3> Amount </h3>
                 </div>
 
             {/* cover the checkpoint. */}
 
-            <div className="lcp">
+            <div style={{textAlign: 'center'}} className="lcp">
 
                 {  worths.slice(0).reverse().map((w) => {
                     return (

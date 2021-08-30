@@ -6,6 +6,13 @@
     border-radius: 20px;
     padding: 10px;
     font-size: large;
-      background-color: black;
+    background-color: black;
     color: white;
 }
+
+#inner2{
+  float:left; 
+  clear:left;
+  background-color: #283149;
+  width: 100%;
+} 

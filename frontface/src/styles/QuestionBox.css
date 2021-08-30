@@ -1,18 +1,17 @@
 .typeRacer {
     width: 100%;
-    height: 400px;
+    height: 100px;
+    /* margin-top: 20px; */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: initial;
     align-items: center;
     background: #283149;
   }
   
-  .typeRacer .wordOutput {
+  .wordOutput {
     width: 100%;
-    height: 250px;
-    margin: auto;
-    padding: 10px 10px 10px 10px;
+    height: inherit;
     background: #111727;
     color: #fff;
     padding: 20px;
@@ -29,16 +28,17 @@
     height: 140px;
     border-radius: 50%;
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     border: 2px solid #f73859;
     color: #fff;
-    display: flex;
+    font-size: 80px;
+    margin: 0 auto;
   }
   
-  .typeRacer .time p {
-    margin: auto;
-    font-size: 60px;
-    line-height: 1;
-  }
+ .button-space{
+
+  margin-top: 30px;
+
+ }

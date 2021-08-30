@@ -49,7 +49,7 @@ function OptionBox(props) {
 
 
     return (
-        <div className = "typeRacer">
+        <div id="inner2" className = "option-space">
           
                 {choice_items.map((option) => {
                 return (

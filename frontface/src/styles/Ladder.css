@@ -1,6 +1,6 @@
 .ladder {
     width: 100%;
-    max-width: 440px;
+    max-width: 400px;
     background: #283149;
     display: flex;
     flex-direction: column;
@@ -11,7 +11,7 @@
   }
 
 .button_style {
-   border-radius: 20px;
+   border-radius: 15px 50px;
     outline: none;
     background: #f73859;
     color: #fff;
@@ -33,7 +33,7 @@
 .crossed-line {
     text-decoration: line-through;
     width: 25vw;
-    border-radius: 20px;
+    border-radius: 15px 50px;
 }
   
   .ladder .title {
@@ -54,11 +54,12 @@
     display: flex;
     padding: 2.5px;
     color: white;
-  
   }
 
 .lcp {
-  transform: translateX(13.6%);
+  margin-left :35px;
+  justify-content: center;
+  text-align: center;
 }
 
   

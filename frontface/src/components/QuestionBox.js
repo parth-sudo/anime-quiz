@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 
 import "../styles/QuestionBox.css";
+import "../styles/OptionBox.css";
 import OptionHandler from "./OptionHandler.js";
 import Context from '../store/pause-context.js';
 
@@ -32,24 +33,34 @@ function QuestionBox(props) {
   function startGame() {
 
     return (
-      <div className="typeRacer">
-        <div style = {{animation : animation !== null ? animation : ""}} className="time">
-          <p> {seconds} </p>
-        </div>
+      <div className="">
+   
+          <div style = {{animation : (animation !== null ? animation : "")}} className="time">
+            <p> {seconds} </p>
+          </div>
+  
 
         <div className="typeRacer">
           <div className="wordOutput">
             <p> Q {worthID}. {question.title} </p>
+        
           </div>
+
+          {/* <div className="button-space">
+            <button className="option"> Option </button>
+          </div> */}
 
           {/* set timeout of 7s. */}
         </div>
+
+      
+
       </div>
     );
   }
 
   return (
-    <div className="typeRacer">
+    <div id="inner1">
           {startGame()}
     </div>
   );

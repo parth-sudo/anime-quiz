@@ -63,6 +63,7 @@ export default function Game() {
     return (
       <Container>
         <Context.Provider value = {{timerPaused, setTimerPaused}}>
+        <div id="wrapper">
           <QuestionBox worthID={worthID} 
           setWorthID={setWorthID}
           question={question}
@@ -74,6 +75,7 @@ export default function Game() {
           setWorthID={setWorthID}
           getResult = {getResult}
           />
+         </div>
         </Context.Provider>
       </Container>
     )
@@ -138,7 +140,6 @@ export default function Game() {
   else if(i >= 10 && i < 15) {
     return worths[10].cost;
   }
-
   return 0; 
 }
 
@@ -160,19 +161,12 @@ export default function Game() {
 
   function continueGame() {
     return (
-      <div className="game">
+      <div>
 
-        <div className="container"> 
-          
-          {worthID === 1 ? boxHolder() : null}
-        
-          {prevID < worthID ? putNextQuestion() : null}
-          {resetStates()}
-
-          {prevID === worthID && prevID > 1 ? boxHolder() : null}
-
-
-        </div>
+        {worthID === 1 ? boxHolder() : null}
+        {prevID < worthID ? putNextQuestion() : null}
+        {resetStates()}
+        {prevID === worthID && prevID > 1 ? boxHolder() : null}
 
     </div>
     )

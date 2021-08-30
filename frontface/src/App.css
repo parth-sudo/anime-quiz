@@ -183,3 +183,21 @@
     margin: 40px 0;
   }
 }
+
+#wrapper{
+  margin-left:auto;
+  margin-right:auto;
+  height:auto; 
+  width:auto;
+  margin-bottom:5%;
+  margin-top: 20px;
+}
+
+#inner1{
+  float:left; 
+}
+
+#inner2{
+  float:left; 
+  clear:left;
+} 

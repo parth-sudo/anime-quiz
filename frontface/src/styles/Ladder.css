@@ -23,7 +23,7 @@
   }
 
   .checkpoint{
-    border-radius: 20px;
+    border-radius: 15px 50px;
    background: black;
     color: yellow;
     width: 25vw;

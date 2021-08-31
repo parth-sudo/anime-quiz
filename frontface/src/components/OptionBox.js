@@ -34,7 +34,7 @@ function OptionBox(props) {
      setCABClicked(!cabClicked);
 
      if(!isCorrect) {
-        console.log("wrong answer.");
+
         props.getResult(false);
         // setRightAnswer(false);
      }
@@ -42,31 +42,57 @@ function OptionBox(props) {
        setShowCAB(!showCAB);
        props.getResult(true);
       //  setRightAnswer(true);
-       console.log("right answer.");
+ 
      }
 
  }
 
+ function displayButtons() {
+
+  let mat = [[]], arr = [];
+  choice_items.map((option) => {
+      arr.push(option);
+  })
+
+  mat = [ [arr[0], arr[1]], [arr[2], arr[3]] ];
+      
+   return (
+      <div>        
+         {
+
+        mat.map((row, index) => ( 
+          <div key={index} className="option-row">
+            { row.map( (option) => {
+                return (
+                        <div key={option.position + index}>
+                            <OptionHandler 
+                            option={option} 
+                            id={option.position} 
+                            onOptionClick = {optionHandler}
+                            disableOption = {showCAB}
+                            cabClicked = {cabClicked}
+                            setChosen = {setIsCorrect}
+                            worthID = {worthID}
+                            /> 
+                        </div>
+                      )
+              } ) 
+            }
+            </div>
+          ))
+
+         } 
+     </div>
+   )
+ }
+
 
     return (
-        <div id="inner2" className = "option-space">
+        <div id="inner2">
           
-                {choice_items.map((option) => {
-                return (
-                <div key={option.position}>
-                    {/* {console.log(option.position)} */}
-                    <OptionHandler 
-                    option={option} 
-                    id={option.position} 
-                    onOptionClick = {optionHandler}
-                    disableOption = {showCAB}
-                    cabClicked = {cabClicked}
-                    setChosen = {setIsCorrect}
-                    worthID = {worthID}
-                    />
-                </div>
-                );
-            })}
+
+            {displayButtons()}
+  
     
           <div style={{ textAlign: "center", backgroundColor: "white" }}>
           

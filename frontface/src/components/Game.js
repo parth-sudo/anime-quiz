@@ -109,23 +109,23 @@ export default function Game() {
 }
  
  function gameLostMessage() {
-  const question_items = questions.filter((question) => {
-    return question.worth === worthID;
-  });
-  const question = question_items[Math.floor(Math.random() * question_items.length)];
-  const choice_items = choices.filter( 
-    (choice) => choice.question === question.id
-  );
+  // const question_items = questions.filter((question) => {
+  //   return question.worth === worthID;
+  // });
+  // const question = question_items[Math.floor(Math.random() * question_items.length)];
+  // const choice_items = choices.filter( 
+  //   (choice) => choice.question === question.id
+  // );
 
-  let ans = null;
-  choice_items.map((choice) => {
-    if(choice.is_correct) {
-      ans = choice;
-    }
-  })
+  // let ans = null;
+  // choice_items.map((choice) => {
+  //   if(choice.is_correct) {
+  //     ans = choice;
+  //   }
+  // })
     return (
       <div> 
-        <h2 style={{backgroundColor: 'white', color: 'black'}}> Wrong! The correct answer is <i> {alphabet(ans.position)} {ans.choice}</i>. </h2>
+        <h2 style={{backgroundColor: 'white', color: 'black'}}> Wrong! The correct answer is <i> {alphabet(null)} {null}</i>. </h2>
         <h3 style={{backgroundColor: 'white', color: 'black'}}> You take away ₹{amountWonOnLosing()} </h3>
         <Button color="secondary" to = "/" component={Link}> Back to Home </Button>
       </div>

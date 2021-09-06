@@ -1,12 +1,13 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import OptionHandler from './OptionHandler.js';
 import {Button} from "@material-ui/core";
 
 import Context from '../store/pause-context.js';
+import "../styles/QuestionBox.css";
 
 function OptionBox(props) {
 
-  const { timerPaused, setTimerPaused } = useContext(Context);
+  const { setFreezed } = useContext(Context);
   const {choice_items, worthID, setWorthID, setRightAnswer, gameLost, setPause} = props;
 
   const [disableFreeze, setDisableFreeze] = useState(true);
@@ -14,19 +15,21 @@ function OptionBox(props) {
   const [cabClicked, setCABClicked] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
 
-//   const [buttonProps, setButtonProps] = [{}, {}, {}, {}]
-
   function optionHandler(clicked) {
     setDisableFreeze(!clicked);
     console.log("disabled-");
  }
  
  function freezeOptions() {
- // also stop the timer.
+   
     setShowCAB(!showCAB);
+  
     // setTimerPaused(true);
     console.log("worthId after freezing-");
     console.log(worthID);
+
+     // also stop the timer.
+     setFreezed(true);
  }
 
  function checkAnswer() {
@@ -89,12 +92,11 @@ function OptionBox(props) {
 
     return (
         <div id="inner2">
-          
-
+             
             {displayButtons()}
   
     
-          <div style={{ textAlign: "center", backgroundColor: "white" }}>
+          <div style={{textAlign: "center", backgroundColor: "white" }}>
           
             {showCAB ? <Button onClick={checkAnswer}> Check Answer </Button>: 
             <Button disabled={disableFreeze} onClick={freezeOptions} color="primary">

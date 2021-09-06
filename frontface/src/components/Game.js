@@ -22,10 +22,17 @@ export default function Game() {
   const [rightAnswer, setRightAnswer] = useState(false);
   const [gameLost, setGameLost] = useState(false);
 
-  const [timerPaused, setTimerPaused] = useState(false);
+  const [freezed, setFreezed] = useState(false);
+
+  const [choiceItems, setChoiceItems] = useState([]);
+  const [question, setQuestion] = useState(null);
   
 
   useEffect(() => {
+
+    console.log("First useEffect");
+
+
     fetch("http://localhost:8000/api/list-worth/")
       .then((response) => response.json())
       .then((data) => {
@@ -37,48 +44,72 @@ export default function Game() {
       .then((response) => response.json())
       .then((data) => {
         setQuestions(data);
-        console.log(data);
+     
       });
 
     fetch("http://localhost:8000/api/list-c/")
       .then((response) => response.json())
       .then((data) => {
         setChoices(data);
-        console.log(data);
+   
       });
   }, []);
+
+  useEffect(() => {
+     
+    if(worthID > 0) {
+
+      console.log("second useEffect running");
+   
+      const question_items = questions.filter((question) => {
+        return question.worth === worthID;
+      });
+      const question = question_items[Math.floor(Math.random() * question_items.length)];
+  
+      const choice_items = choices.filter( 
+        (choice) => choice.question === question.id
+      );
+
+      setQuestion(question);
+      console.log(question);
+      setChoiceItems(choice_items);
+
+    }
+  }, [worthID, questions, choices])
+
 
 
   function boxHolder() {
     console.log("boxHolder rendering");
-    const question_items = questions.filter((question) => {
-      return question.worth === worthID;
-    });
-    const question = question_items[Math.floor(Math.random() * question_items.length)];
+    // console.log(question);
+    console.log(choiceItems);
+ 
 
-    const choice_items = choices.filter( 
-      (choice) => choice.question === question.id
-    );
+    if(question !== null) {
+      return (
+        <Container>
+          <Context.Provider value = {{freezed, setFreezed}}>
+          <div id="wrapper">
+            <QuestionBox worthID={worthID} 
+            setWorthID={setWorthID}
+            question={question}
+            />
+  
+            <OptionBox choice_items={choiceItems} 
+            // setRightAnswer = {setRightAnswer}
+            worthID = {worthID} 
+            setWorthID={setWorthID}
+            getResult = {getResult}
+            />
+           </div>
+          </Context.Provider>
+        </Container>
+      )
 
-    return (
-      <Container>
-        <Context.Provider value = {{timerPaused, setTimerPaused}}>
-        <div id="wrapper">
-          <QuestionBox worthID={worthID} 
-          setWorthID={setWorthID}
-          question={question}
-          />
+    }
 
-          <OptionBox choice_items={choice_items} 
-          // setRightAnswer = {setRightAnswer}
-          worthID = {worthID} 
-          setWorthID={setWorthID}
-          getResult = {getResult}
-          />
-         </div>
-        </Context.Provider>
-      </Container>
-    )
+   
+
   }
 
   // prop function.
@@ -109,23 +140,11 @@ export default function Game() {
 }
  
  function gameLostMessage() {
-  // const question_items = questions.filter((question) => {
-  //   return question.worth === worthID;
-  // });
-  // const question = question_items[Math.floor(Math.random() * question_items.length)];
-  // const choice_items = choices.filter( 
-  //   (choice) => choice.question === question.id
-  // );
-
-  // let ans = null;
-  // choice_items.map((choice) => {
-  //   if(choice.is_correct) {
-  //     ans = choice;
-  //   }
-  // })
+ 
     return (
       <div> 
-        <h2 style={{backgroundColor: 'white', color: 'black'}}> Wrong! The correct answer is <i> {alphabet(null)} {null}</i>. </h2>
+
+        <h2 style={{ margin: '0 auto', backgroundColor: 'white', color: 'black'}}> Wrong! The correct answer is <i> {alphabet(null)} {null}</i>. </h2>
         <h3 style={{backgroundColor: 'white', color: 'black'}}> You take away ₹{amountWonOnLosing()} </h3>
         <Button color="secondary" to = "/" component={Link}> Back to Home </Button>
       </div>
@@ -146,8 +165,8 @@ export default function Game() {
   function putNextQuestion() {
     console.log(worthID);
     return (
-      <div style={{alignItems : 'center'}}> 
-       <button style={{color: 'black'}} onClick={() => setRightAnswer(true)}> Right answer! Next</button>
+      <div style={{position: 'relative', left: '150px', textAlign : 'center'}}> 
+       <h3 style={{color: 'white'}} onClick={() => setRightAnswer(true)}> Right answer!  <Button color="secondary"> Next </Button></h3>
      </div> 
    )
   }
@@ -156,6 +175,7 @@ export default function Game() {
         if(rightAnswer) {
           setRightAnswer(false);
           setPrevID(worthID);
+          setFreezed(false);
         }
   }
 
@@ -190,6 +210,8 @@ export default function Game() {
    
 
         {gameLost ? gameLostMessage() : continueGame()}
+        
+
 
       </div>
 

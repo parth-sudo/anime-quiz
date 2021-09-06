@@ -3,21 +3,17 @@ import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 
 import "../styles/QuestionBox.css";
 import "../styles/OptionBox.css";
-import OptionHandler from "./OptionHandler.js";
 import Context from '../store/pause-context.js';
 
 function QuestionBox(props) {
-  const { timerPaused, setTimerPaused } = useContext(Context);
+  const { freezed } = useContext(Context);
 
   const { question, worthID, setWorthID } = props;
-
-  const [animation, setAnimation] = useState(null);
-
   const [seconds, setSeconds] = useState(45);
   
   useEffect(() => {
     const interval = setInterval(() => {
-      if(!timerPaused) { //I used '!paused' because I set pause initially to false. 
+      if(!freezed) { //I used '!freezed' because I set pause initially to false. 
         if (seconds > 0) {
           setSeconds(seconds - 1);
         }
@@ -29,26 +25,29 @@ function QuestionBox(props) {
   // const handlePauseToggle = () => {
   //   setTimerPaused(!timerPaused);
   // }
+
+  const quesCheck = (q) => {
+    console.log(q);
+  }
   
   function startGame() {
 
     return (
       <div className="">
    
-          <div style = {{animation : (animation !== null ? animation : "")}} className="time">
+        <div className="time">
             <p> {seconds} </p>
           </div>
   
 
         <div className="typeRacer">
           <div className="wordOutput">
-            <p> Q {worthID}. {question.title} </p>
+           <p> Q {worthID}. {question.title} </p> 
+
+           {quesCheck(question.title)}
         
           </div>
 
-          {/* <div className="button-space">
-            <button className="option"> Option </button>
-          </div> */}
 
           {/* set timeout of 7s. */}
         </div>

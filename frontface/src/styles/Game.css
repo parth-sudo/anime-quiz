@@ -19,3 +19,10 @@
       /* margin-left: 20%;  */
       align-items: center; 
   }
+
+.pauseScreen{
+    position: relative; 
+    left: 100px;
+    text-align : center;
+    color: whitesmoke;
+  }

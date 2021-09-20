@@ -19,14 +19,16 @@ export default function Game() {
   
   const [worthID, setWorthID] = useState(0);
   const [prevID, setPrevID] = useState(1);
-  const [rightAnswer, setRightAnswer] = useState(false);
+
   const [gameLost, setGameLost] = useState(false);
 
   const [freezed, setFreezed] = useState(false);
 
   const [choiceItems, setChoiceItems] = useState([]);
   const [question, setQuestion] = useState(null);
-  
+
+  const [rightAnswer, setRightAnswer] = useState(false);
+  const [correctChoice, setCorrectChoice] = useState({pos:0, val:'null'});
 
   useEffect(() => {
 
@@ -70,13 +72,20 @@ export default function Game() {
         (choice) => choice.question === question.id
       );
 
+      const sahiJawab = choice_items.find(c => c.is_correct);
+      const obj = {pos : 0, val : 'null'};
+      obj.pos = sahiJawab.position;
+      obj.val = sahiJawab.choice;
+
+      // setRightAnswer(obj);
       setQuestion(question);
-      console.log(question);
+      // console.log(question);
       setChoiceItems(choice_items);
+      // console.log(rightAnswer);
+      setCorrectChoice(obj);
 
     }
   }, [worthID, questions, choices])
-
 
 
   function boxHolder() {
@@ -108,8 +117,6 @@ export default function Game() {
 
     }
 
-   
-
   }
 
   // prop function.
@@ -139,18 +146,6 @@ export default function Game() {
     return <span> D. </span>;
 }
  
- function gameLostMessage() {
- 
-    return (
-      <div> 
-
-        <h2 style={{ margin: '0 auto', backgroundColor: 'white', color: 'black'}}> Wrong! The correct answer is <i> {alphabet(null)} {null}</i>. </h2>
-        <h3 style={{backgroundColor: 'white', color: 'black'}}> You take away ₹{amountWonOnLosing()} </h3>
-        <Button color="secondary" to = "/" component={Link}> Back to Home </Button>
-      </div>
-    )
- }
-
  const amountWonOnLosing = () => {
   let i = worthID;
   if(i >= 5 && i < 10) {
@@ -163,13 +158,28 @@ export default function Game() {
 }
 
   function putNextQuestion() {
-    console.log(worthID);
+    console.log("right answer.");
     return (
       <div style={{position: 'relative', left: '150px', textAlign : 'center'}}> 
        <h3 style={{color: 'white'}} onClick={() => setRightAnswer(true)}> Right answer!  <Button color="secondary"> Next </Button></h3>
      </div> 
    )
   }
+
+  function gameLostMessage() {
+    console.log(correctChoice);
+      return (
+        <div className="pauseScreen"> 
+  
+          <h2> Wrong! The correct answer is <span style={{color:'lightgreen'}}> {alphabet(correctChoice.pos)} {correctChoice.val} </span> </h2>
+          <h2> Trivia </h2>
+          <p> Trivia </p>
+          <h3> You take away ₹{amountWonOnLosing()} </h3>
+          <Button color="secondary" to = "/" component={Link}> Back to Home </Button>
+        </div>
+      )
+      
+   }
 
   const resetStates = () => {
         if(rightAnswer) {
@@ -203,9 +213,11 @@ export default function Game() {
       <div className="container"> 
 
       {worthID === 0 ? (
-                <Button style={{alignItems : 'center'}} color="secondary" onClick={() => setWorthID(worthID + 1)}>
-                  Ready?
+              <div className="pauseScreen"> 
+                <Button style={{margin: '0 auto'}} color="secondary" onClick={() => setWorthID(worthID + 1)}>
+                  Begin!!!
                 </Button>
+                </div>
               ) : null}
    
 

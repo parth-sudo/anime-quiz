@@ -4,9 +4,10 @@ Hi, This is an anime quiz app which is similar to KBC/WWTBM. The questions are b
 
 Screenshots - 
 
-<img width="949" alt="Screenshot 2021-08-25 190433" src="https://user-images.githubusercontent.com/59291824/130800439-a99d55c7-7f63-43b1-956e-97cf4f97eb0e.png">
 
-<img width="935" alt="a" src="https://user-images.githubusercontent.com/59291824/130801236-58050983-8c15-4cb2-b143-e4b47112ada0.png">
+<img width="938" alt="Screenshot 2021-09-02 002359" src="https://user-images.githubusercontent.com/59291824/131727868-9fad02c8-c07a-4211-937b-c88ef5ffc8c7.png">
 
-<img width="947" alt="b" src="https://user-images.githubusercontent.com/59291824/130801241-26b9068d-5824-4d26-a624-e03a2cc8d533.png">
+
+<img width="944" alt="Screenshot 2021-09-02 002322" src="https://user-images.githubusercontent.com/59291824/131727800-bd9f445d-000d-4e1e-b354-5f0fc1cf608f.png">
+
 

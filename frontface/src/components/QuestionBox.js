@@ -4,55 +4,81 @@ import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 import "../styles/QuestionBox.css";
 import "../styles/OptionBox.css";
 import Context from '../store/pause-context.js';
+import tiktokTimer from '../static/timer.mp3';
 
 function QuestionBox(props) {
   const { freezed } = useContext(Context);
 
-  const { question, worthID, setWorthID } = props;
-  const [seconds, setSeconds] = useState(45);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if(!freezed) { //I used '!freezed' because I set pause initially to false. 
-        if (seconds > 0) {
-          setSeconds(seconds - 1);
-        }
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  });
-  
-  // const handlePauseToggle = () => {
-  //   setTimerPaused(!timerPaused);
-  // }
+  const { question, worthID, setWorthID, setGameLost, worths} = props;
+  const [seconds, setSeconds] = useState(30);
+  const [timerCalled, setTimerCalled] = useState(false);
+  const [tiktok, setTiktok] = useState(new Audio(tiktokTimer));
 
-  const quesCheck = (q) => {
-    console.log(q);
+  useEffect(() => {
+    const timer = setTimeout(() => setTimerCalled(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if(timerCalled === true) {
+  
+      const interval = setInterval(() => {
+        if(!freezed && timerCalled) { 
+          if (seconds > 0) {
+            setSeconds(seconds - 1);
+          }
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+
+    } 
+ 
+  }, [timerCalled, seconds, freezed]);
+
+
+  useEffect(() => {
+    if(seconds === 0) {
+      props.timeUpCheck(0);
+    }
+  }, [seconds]);
+
+  useEffect(() => {
+    if(timerCalled) {
+      tiktok.play();
+      if(freezed) {
+        tiktok.pause();
+        return;
+      }
+      console.log("question box third use effect in play")
+    }
+  }, [timerCalled, freezed]);
+
+  const callTimer = () => {
+    console.log("timer called");
+     return (
+        <div className="time">
+        <p> {seconds} </p>
+        </div>
+     )
   }
   
   function startGame() {
 
     return (
       <div className="">
-   
-        <div className="time">
-            <p> {seconds} </p>
-          </div>
-  
+
+      {/* timeout */}
+       {callTimer()}
+       {/* {callTimer()} */}
 
         <div className="typeRacer">
           <div className="wordOutput">
-           <p> Q {worthID}. {question.title} </p> 
 
-           {quesCheck(question.title)}
+           <p> Q {worthID}. {question.title} </p> 
         
           </div>
 
-
-          {/* set timeout of 7s. */}
-        </div>
-
-      
+        </div>      
 
       </div>
     );

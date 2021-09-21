@@ -10,6 +10,7 @@
     max-width: 600px;
     margin: auto;
     display: flex;
+    float : left;
     justify-content: space-between;
   }
 
@@ -21,8 +22,7 @@
   }
 
 .pauseScreen{
-    position: relative; 
-    left: 100px;
+    margin: 0 auto;
     text-align : center;
     color: whitesmoke;
   }

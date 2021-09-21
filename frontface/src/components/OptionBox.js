@@ -14,6 +14,12 @@ function OptionBox(props) {
   const [showCAB, setShowCAB] = useState(false);
   const [cabClicked, setCABClicked] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [showOptionBox, setShowOptionBox] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowOptionBox(true), 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   function optionHandler(clicked) {
     setDisableFreeze(!clicked);
@@ -50,61 +56,67 @@ function OptionBox(props) {
 
  }
 
- function displayButtons() {
+    function displayButtons() {
 
-  let mat = [[]], arr = [];
-  choice_items.map((option) => {
-      arr.push(option);
-  })
+      let mat = [[]], arr = [];
+      choice_items.map((option) => {
+          arr.push(option);
+      })
 
-  mat = [ [arr[0], arr[1]], [arr[2], arr[3]] ];
-      
-   return (
-      <div>        
-         {
+      mat = [ [arr[0], arr[1]], [arr[2], arr[3]] ];
+          
+      return (
+          <div>        
+            {
 
-        mat.map((row, index) => ( 
-          <div key={index} className="option-row">
-            { row.map( (option) => {
-                return (
-                        <div key={option.position + index}>
-                            <OptionHandler 
-                            option={option} 
-                            id={option.position} 
-                            onOptionClick = {optionHandler}
-                            disableOption = {showCAB}
-                            cabClicked = {cabClicked}
-                            setChosen = {setIsCorrect}
-                            worthID = {worthID}
-                            /> 
-                        </div>
-                      )
-              } ) 
-            }
-            </div>
-          ))
+            mat.map((row, index) => ( 
+              <div key={index} className="option-row">
+                { row.map( (option) => {
+                    return (
+                            <div key={option.position + index}>
+                                <OptionHandler 
+                                option={option} 
+                                id={option.position} 
+                                onOptionClick = {optionHandler}
+                                disableOption = {showCAB}
+                                cabClicked = {cabClicked}
+                                setChosen = {setIsCorrect}
+                                worthID = {worthID}
+                                /> 
+                            </div>
+                          )
+                  } ) 
+                }
+                </div>
+              ))
 
-         } 
-     </div>
-   )
- }
+            } 
+        </div>
+      )
+    }
 
+    function Box() {
+      return (
+        <div>
+
+           {displayButtons()}
+    
+          <div style={{textAlign: "center", border:"1px solid white", backgroundColor: "#283149" }}>
+          
+            {showCAB ? <Button style={{color: "#EFE9EF"}} onClick={checkAnswer}> Check Answer </Button>: 
+            <Button style={{color: "white"}} disabled={disableFreeze} onClick={freezeOptions} color="primary">
+              Freeze
+            </Button>}
+
+          </div>
+          
+        </div>
+      )
+    }
 
     return (
         <div id="inner2">
-             
-            {displayButtons()}
-  
-    
-          <div style={{textAlign: "center", backgroundColor: "white" }}>
-          
-            {showCAB ? <Button onClick={checkAnswer}> Check Answer </Button>: 
-            <Button disabled={disableFreeze} onClick={freezeOptions} color="primary">
-              Freeze
-            </Button>}
- 
-          </div>
-            
+            {showOptionBox ? Box() : null}
         </div>
     )
 }

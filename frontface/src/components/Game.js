@@ -8,6 +8,7 @@ import "../styles/Game.css";
 import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 import {Link} from "react-router-dom";
 import Context from '../store/pause-context.js';
+import clap from '../static/clap.mp3';
 
 
 export default function Game() {
@@ -33,7 +34,6 @@ export default function Game() {
   useEffect(() => {
 
     console.log("First useEffect");
-
 
     fetch("http://localhost:8000/api/list-worth/")
       .then((response) => response.json())
@@ -102,6 +102,8 @@ export default function Game() {
             <QuestionBox worthID={worthID} 
             setWorthID={setWorthID}
             question={question}
+            timeUpCheck = {timeUpCheck}
+            worths = {worths}
             />
   
             <OptionBox choice_items={choiceItems} 
@@ -120,10 +122,18 @@ export default function Game() {
   }
 
   // prop function.
+function timeUpCheck(s) {
+    if(s === 0) {
+       setGameLost(true);
+    }
+}
+    // prop function.
   function getResult(isCorrect) {
     if(isCorrect) {
       // console.log(" func get result says absolutely true");
       setWorthID(worthID + 1);
+      let song = new Audio(clap);
+      song.play();
     }
     else {
       setGameLost(true);
@@ -160,7 +170,7 @@ export default function Game() {
   function putNextQuestion() {
     console.log("right answer.");
     return (
-      <div style={{position: 'relative', left: '150px', textAlign : 'center'}}> 
+      <div className ="pauseScreen">
        <h3 style={{color: 'white'}} onClick={() => setRightAnswer(true)}> Right answer!  <Button color="secondary"> Next </Button></h3>
      </div> 
    )

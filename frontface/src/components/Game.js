@@ -8,8 +8,6 @@ import "../styles/Game.css";
 import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 import {Link} from "react-router-dom";
 import Context from '../store/pause-context.js';
-import clap from '../static/clap.mp3';
-
 
 export default function Game() {
   // get all choices, questions, worth.
@@ -30,6 +28,7 @@ export default function Game() {
 
   const [rightAnswer, setRightAnswer] = useState(false);
   const [correctChoice, setCorrectChoice] = useState({pos:0, val:'null'});
+  const [TL, setTL] = useState(4000);
 
   useEffect(() => {
 
@@ -79,6 +78,14 @@ export default function Game() {
 
       // setRightAnswer(obj);
       setQuestion(question);
+
+        let x = 60/130;
+        var arr = question.title.split(' ');
+        let n = arr.length;
+        let y = n*x*1000;
+        console.log(n);
+        setTL(y);
+    
       // console.log(question);
       setChoiceItems(choice_items);
       // console.log(rightAnswer);
@@ -93,7 +100,6 @@ export default function Game() {
     // console.log(question);
     console.log(choiceItems);
  
-
     if(question !== null) {
       return (
         <Container>
@@ -104,6 +110,7 @@ export default function Game() {
             question={question}
             timeUpCheck = {timeUpCheck}
             worths = {worths}
+            TL = {TL}
             />
   
             <OptionBox choice_items={choiceItems} 
@@ -111,6 +118,7 @@ export default function Game() {
             worthID = {worthID} 
             setWorthID={setWorthID}
             getResult = {getResult}
+            TL = {TL}
             />
            </div>
           </Context.Provider>
@@ -132,8 +140,6 @@ function timeUpCheck(s) {
     if(isCorrect) {
       // console.log(" func get result says absolutely true");
       setWorthID(worthID + 1);
-      let song = new Audio(clap);
-      song.play();
     }
     else {
       setGameLost(true);

@@ -4,18 +4,18 @@ import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 import "../styles/QuestionBox.css";
 import "../styles/OptionBox.css";
 import Context from '../store/pause-context.js';
-import tiktokTimer from '../static/timer.mp3';
+import tiktokTimer from '../soundEffects/timer.mp3';
 
 function QuestionBox(props) {
   const { freezed } = useContext(Context);
 
-  const { question, worthID, setWorthID, setGameLost, worths} = props;
+  const { question, worthID, TL} = props;
   const [seconds, setSeconds] = useState(30);
   const [timerCalled, setTimerCalled] = useState(false);
   const [tiktok, setTiktok] = useState(new Audio(tiktokTimer));
 
   useEffect(() => {
-    const timer = setTimeout(() => setTimerCalled(true), 3000);
+    const timer = setTimeout(() => setTimerCalled(true), TL);
     return () => clearTimeout(timer);
   }, []);
 
@@ -61,6 +61,7 @@ function QuestionBox(props) {
         </div>
      )
   }
+
   
   function startGame() {
 
@@ -73,7 +74,8 @@ function QuestionBox(props) {
 
         <div className="typeRacer">
           <div className="wordOutput">
-
+           
+           {/* {timeOutLength(question.title)} */}
            <p> Q {worthID}. {question.title} </p> 
         
           </div>

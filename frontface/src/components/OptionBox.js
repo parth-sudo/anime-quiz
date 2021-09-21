@@ -4,11 +4,14 @@ import {Button} from "@material-ui/core";
 
 import Context from '../store/pause-context.js';
 import "../styles/QuestionBox.css";
+import lock from "../soundEffects/lock.mp3";
+import clap from '../soundEffects/clap.mp3';
+import wrong from "../soundEffects/wrong.mp3";
 
 function OptionBox(props) {
 
   const { setFreezed } = useContext(Context);
-  const {choice_items, worthID, setWorthID, setRightAnswer, gameLost, setPause} = props;
+  const {choice_items, worthID, TL} = props;
 
   const [disableFreeze, setDisableFreeze] = useState(true);
   const [showCAB, setShowCAB] = useState(false);
@@ -16,10 +19,22 @@ function OptionBox(props) {
   const [isCorrect, setIsCorrect] = useState(false);
   const [showOptionBox, setShowOptionBox] = useState(false);
 
+  const [lockSound, setLockSound] = useState(new Audio(lock));
+
+
   useEffect(() => {
-    const timer = setTimeout(() => setShowOptionBox(true), 3000);
+    const timer = setTimeout(() => setShowOptionBox(true), TL);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+
+    if(cabClicked)  {
+      console.log("pausing chuklanion ki mkb");
+      lockSound.pause();
+    }
+ 
+  }, [cabClicked]);
 
   function optionHandler(clicked) {
     setDisableFreeze(!clicked);
@@ -34,24 +49,30 @@ function OptionBox(props) {
     console.log("worthId after freezing-");
     console.log(worthID);
 
-     // also stop the timer.
      setFreezed(true);
+    //  let sound = new Audio(lock);
+    //  sound.play();
+    lockSound.play();
  }
 
  function checkAnswer() {
-    //  console.log("checking answer."); 
+      console.log("checking answer."); 
      setCABClicked(!cabClicked);
 
      if(!isCorrect) {
-
+      lockSound.pause();
         props.getResult(false);
         // setRightAnswer(false);
+        let sound  = new Audio(wrong);
+        sound.play();
      }
      else {
+      lockSound.pause();
        setShowCAB(!showCAB);
        props.getResult(true);
       //  setRightAnswer(true);
- 
+      let song = new Audio(clap);
+      song.play();
      }
 
  }

@@ -11,6 +11,7 @@ class Worth(models.Model):
 class Question(models.Model):
     title = models.CharField(max_length=255, unique = True)
     worth = models.ForeignKey(Worth, related_name='worth', on_delete=models.CASCADE)
+    # trivia = models.TextField(default = "", blank=True)
 
     def __str__(self):
         return self.title

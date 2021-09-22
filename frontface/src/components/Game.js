@@ -27,7 +27,7 @@ export default function Game() {
   const [question, setQuestion] = useState(null);
 
   const [rightAnswer, setRightAnswer] = useState(false);
-  const [correctChoice, setCorrectChoice] = useState({pos:0, val:'null'});
+  const [correctChoice, setCorrectChoice] = useState({pos:0, val:'null', trivia: 'null', hint:'null'});
   const [TL, setTL] = useState(4000);
 
   useEffect(() => {
@@ -72,9 +72,14 @@ export default function Game() {
       );
 
       const sahiJawab = choice_items.find(c => c.is_correct);
-      const obj = {pos : 0, val : 'null'};
+      const obj = {pos : 0, val : 'null', trivia : 'null'};
       obj.pos = sahiJawab.position;
       obj.val = sahiJawab.choice;
+      obj.trivia = question.trivia;
+
+      console.log(sahiJawab);
+
+      setCorrectChoice(obj);
 
       // setRightAnswer(obj);
       setQuestion(question);
@@ -89,7 +94,7 @@ export default function Game() {
       // console.log(question);
       setChoiceItems(choice_items);
       // console.log(rightAnswer);
-      setCorrectChoice(obj);
+    
 
     }
   }, [worthID, questions, choices])
@@ -174,7 +179,8 @@ function timeUpCheck(s) {
 }
 
   function putNextQuestion() {
-    console.log("right answer.");
+ 
+    console.log(question.trivia)
     return (
       <div className ="pauseScreen">
        <h3 style={{color: 'white'}} onClick={() => setRightAnswer(true)}> Right answer!  <Button color="secondary"> Next </Button></h3>
@@ -189,7 +195,7 @@ function timeUpCheck(s) {
   
           <h2> Wrong! The correct answer is <span style={{color:'lightgreen'}}> {alphabet(correctChoice.pos)} {correctChoice.val} </span> </h2>
           <h2> Trivia </h2>
-          <p> Trivia </p>
+          <p> {question.trivia} </p>
           <h3> You take away ₹{amountWonOnLosing()} </h3>
           <Button color="secondary" to = "/" component={Link}> Back to Home </Button>
         </div>
@@ -238,8 +244,7 @@ function timeUpCheck(s) {
    
 
         {gameLost ? gameLostMessage() : continueGame()}
-        
-
+      
 
       </div>
 

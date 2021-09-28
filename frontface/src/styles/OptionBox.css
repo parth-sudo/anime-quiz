@@ -25,3 +25,9 @@
     justify-content:space-around;
     margin-top: 5px;
 }
+
+.button {
+  text-align: center;
+  border: 1px solid white;
+  background-color: #283149;
+}

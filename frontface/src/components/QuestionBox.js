@@ -23,7 +23,7 @@ function QuestionBox(props) {
   useEffect(() => {
     let questune = new Audio(intro);
     questune.play();
-    const timer = setTimeout(() => setShowQues(true), 1000); // change ms here
+    const timer = setTimeout(() => setShowQues(true), 4000); // change ms here
     return () => clearTimeout(timer);
   }, []);
 
@@ -32,7 +32,7 @@ function QuestionBox(props) {
     const delay = TL + 7000;
 
     if(worthID < 11) {
-      const timer = setTimeout(() => setTimerCalled(true), 1000); // change ms here.
+      const timer = setTimeout(() => setTimerCalled(true), delay); // change ms here.
       return () => clearTimeout(timer);
     }
 

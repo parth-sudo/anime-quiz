@@ -31,6 +31,7 @@ export default function Game() {
   const [correctChoice, setCorrectChoice] = useState({pos:0, val:'null', trivia: 'null', hint:'null'});
   const [TL, setTL] = useState(4000);
 
+  const [gameQuit, setGameQuit] = useState(false);
 
   useEffect(() => {
 
@@ -76,10 +77,11 @@ export default function Game() {
       );
 
       const sahiJawab = choice_items.find(c => c.is_correct) || {};
-      const obj = {pos : 0, val : 'null', trivia : 'null'};
+      const obj = {pos : 0, val : 'null', trivia : 'null', hint : 'null'};
       obj.pos = sahiJawab.position;
       obj.val = sahiJawab.choice;
       obj.trivia = question.trivia;
+      obj.hint = question.hint;
 
       setCorrectChoice(obj);
 
@@ -96,7 +98,6 @@ export default function Game() {
       // console.log(question);
       setChoiceItems(choice_items);
       // console.log(rightAnswer);
-    
 
     }
   }, [worthID, questions, choices])
@@ -142,8 +143,11 @@ function timeUpCheck(s) {
     }
 }
     // prop function.
-  function getResult(isCorrect) {
-    if(isCorrect) {
+  function getResult(isCorrect, quit) {
+    if(quit) {
+      setGameQuit(true);
+    }
+    else if(isCorrect) {
       // console.log(" func get result says absolutely true");
       if(worthID === 15) {
         let won = new Audio(adhbhut);
@@ -224,6 +228,21 @@ function timeUpCheck(s) {
     )
   }
 
+  const gameQuitMessage = () => {
+    console.log(correctChoice);
+      return (
+        <div className="pauseScreen"> 
+  
+          <h2> Thanks for playing. The correct answer is <span style={{color:'lightgreen'}}> {alphabet(correctChoice.pos)} {correctChoice.val} </span> </h2>
+          <h2> Trivia </h2>
+          <p> {question.trivia} </p>
+          <h3> You take away ₹{worthID > 1 ? <b>{worths[worthID - 2].cost}</b>: 0} </h3>
+          <Button color="secondary" to = "/" component={Link}> Back to Home </Button>
+        </div>
+      )
+      
+   }
+
   const resetStates = () => {
         if(rightAnswer) {
           setRightAnswer(false);
@@ -267,7 +286,7 @@ function timeUpCheck(s) {
    
     
 
-        {gameLost ? gameLostMessage() : continueGame()}
+        {gameLost ? gameLostMessage() : (gameQuit ? gameQuitMessage() : continueGame())}
     
       </div>
 

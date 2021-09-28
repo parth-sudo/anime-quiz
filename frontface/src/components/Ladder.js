@@ -27,8 +27,9 @@ function Ladder(props) {
                 <p> KBC LADDER </p>
             </div>
             <div style={{textAlign: 'center'}}>
+
                 <div>
-                    <h3> Amount </h3>
+                {worthID > 1 ? <h3 style={{color:'whitesmoke'}}> Currently winning - ₹{worths[worthID-2].cost} </h3> : <h3 style={{color:'whitesmoke'}}> Amount - 0 </h3> }
                 </div>
 
             {/* cover the checkpoint. */}

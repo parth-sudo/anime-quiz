@@ -25,7 +25,7 @@ function OptionBox(props) {
   useEffect(() => {
     console.log(TL + 7000);
     const delay = TL + 7000;
-    const timer = setTimeout(() => setShowOptionBox(true), 1000); //change ms here.
+    const timer = setTimeout(() => setShowOptionBox(true), delay); //change ms here.
     return () => clearTimeout(timer); 
   }, []);
 
@@ -71,7 +71,7 @@ function OptionBox(props) {
      else {
       lockSound.pause();
        setShowCAB(!showCAB);
-       props.getResult(true);
+       props.getResult(true, false);
       //  setRightAnswer(true);
       console.log("clapping hard!!!")
       console.log(worthID);
@@ -81,7 +81,10 @@ function OptionBox(props) {
       }
      
      }
+ }
 
+ const gameQuit = () => {
+    props.getResult(false, true);
  }
 
     function displayButtons() {
@@ -129,14 +132,19 @@ function OptionBox(props) {
 
            {displayButtons()}
      
-          <div style={{textAlign: "center", border:"1px solid white", backgroundColor: "#283149" }}>
+          <div className = "button">
           
             {showCAB ? <Button style={{color: "#EFE9EF"}} onClick={checkAnswer}> Check Answer </Button>: 
             <Button style={{color: "white"}} disabled={disableFreeze} onClick={freezeOptions} color="primary">
               Freeze
             </Button>}
 
+
           </div>
+          
+         {!showCAB ?<Button style={{color: "white"}} onClick={gameQuit} color="primary">
+              Quit
+            </Button> : null} 
           
         </div>
       )

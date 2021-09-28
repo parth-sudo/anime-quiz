@@ -8,11 +8,16 @@ function Ladder(props) {
 
     function ladderChecker(id, price) {
         if(id === 5 || id === 10 || id === 15) {
+            if(worthID > id) {
+                return(<button className="crossed-line-checkpoint"> {id}. ₹{price} </button>) 
+            }
          return (<button className="checkpoint"> {id}. ₹{price} </button>);
         }
-        else if(worthID > id) {
-           return(<button className="crossed-line"> {id}. ₹{price} </button>) 
+
+        if(worthID > id) {
+            return(<button className="crossed-line"> {id}. ₹{price} </button>) 
         }
+       
         return (<button className="button_style"> {id}. ₹{price} </button>);
     }
 

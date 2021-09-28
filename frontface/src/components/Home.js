@@ -1,6 +1,9 @@
 import React from 'react'
 import { Grid, Typography, Button } from "@material-ui/core";
 import Game from './Game';
+import CreateQuestion from './CreateQuestion.js';
+import CreateOption from './CreateOption.js';
+import "../styles/Game.css";
 
 import {
   BrowserRouter as Router,
@@ -9,6 +12,7 @@ import {
   Link,
 } from "react-router-dom";
 
+
 export default function Home() {
   
 const renderHome = () => {
@@ -16,9 +20,13 @@ const renderHome = () => {
     return(
         <Grid item xs={12} align="center">
           <Typography variant="h3" compact="h3">
-          <p style={{'color': 'white'}}> This is the home page. </p>
+          <p style={{'color': 'white'}}> Nihon e youkoso! (Welcome!) </p>
             <Button color="primary" to = "/game" component={Link}> 
             Click here to play
+          </Button>
+
+          <Button color="secondary" to = "/create" component={Link}> 
+            Create questions
           </Button>
           </Typography>
       </Grid>
@@ -37,7 +45,7 @@ const renderHome = () => {
         
           </Route>
           <Route path="/game" component={Game} />
-          
+          <Route path = "/create" component={CreateOption} />
         </Switch>
       </Router>
     )

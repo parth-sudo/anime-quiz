@@ -1,0 +1,16 @@
+.question-creation-form{
+    background-color : whitesmoke;
+    margin: auto;  
+    display:flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    border-radius: 5px;
+    width: 50%;
+    height: 50%;
+}
+
+.fields {
+    width:150%;
+    margin:10px;
+    height:150%;
+}

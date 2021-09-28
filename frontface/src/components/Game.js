@@ -8,6 +8,7 @@ import "../styles/Game.css";
 import { Grid, Typography, Button, ButtonGroup } from "@material-ui/core";
 import {Link} from "react-router-dom";
 import Context from '../store/pause-context.js';
+import adhbhut from "../soundEffects/adhbhut.mp3";
 
 export default function Game() {
   // get all choices, questions, worth.
@@ -30,6 +31,7 @@ export default function Game() {
   const [correctChoice, setCorrectChoice] = useState({pos:0, val:'null', trivia: 'null', hint:'null'});
   const [TL, setTL] = useState(4000);
 
+
   useEffect(() => {
 
     console.log("First useEffect");
@@ -45,6 +47,7 @@ export default function Game() {
       .then((response) => response.json())
       .then((data) => {
         setQuestions(data);
+        console.log(data);
      
       });
 
@@ -58,26 +61,25 @@ export default function Game() {
 
   useEffect(() => {
      
-    if(worthID > 0) {
+    if(worthID > 0 && worthID < 16) {
 
       console.log("second useEffect running");
    
       const question_items = questions.filter((question) => {
         return question.worth === worthID;
       });
+      console.log(question_items);
       const question = question_items[Math.floor(Math.random() * question_items.length)];
-  
+      console.log(question);
       const choice_items = choices.filter( 
         (choice) => choice.question === question.id
       );
 
-      const sahiJawab = choice_items.find(c => c.is_correct);
+      const sahiJawab = choice_items.find(c => c.is_correct) || {};
       const obj = {pos : 0, val : 'null', trivia : 'null'};
       obj.pos = sahiJawab.position;
       obj.val = sahiJawab.choice;
       obj.trivia = question.trivia;
-
-      console.log(sahiJawab);
 
       setCorrectChoice(obj);
 
@@ -88,7 +90,7 @@ export default function Game() {
         var arr = question.title.split(' ');
         let n = arr.length;
         let y = n*x*1000;
-        console.log(n);
+        // console.log(n);
         setTL(y);
     
       // console.log(question);
@@ -103,7 +105,6 @@ export default function Game() {
   function boxHolder() {
     console.log("boxHolder rendering");
     // console.log(question);
-    console.log(choiceItems);
  
     if(question !== null) {
       return (
@@ -144,7 +145,12 @@ function timeUpCheck(s) {
   function getResult(isCorrect) {
     if(isCorrect) {
       // console.log(" func get result says absolutely true");
+      if(worthID === 15) {
+        let won = new Audio(adhbhut);
+        won.play();
+      }
       setWorthID(worthID + 1);
+      console.log(worthID);
     }
     else {
       setGameLost(true);
@@ -169,18 +175,19 @@ function timeUpCheck(s) {
  
  const amountWonOnLosing = () => {
   let i = worthID;
+  console.log(i);
   if(i >= 5 && i < 10) {
-    return worths[5].cost;
+    return worths[4].cost;
   }
   else if(i >= 10 && i < 15) {
-    return worths[10].cost;
+    return worths[9].cost;
   }
   return 0; 
 }
 
   function putNextQuestion() {
  
-    console.log(question.trivia)
+    // console.log(question.trivia)
     return (
       <div className ="pauseScreen">
        <h3 style={{color: 'white'}} onClick={() => setRightAnswer(true)}> Right answer!  <Button color="secondary"> Next </Button></h3>
@@ -188,7 +195,7 @@ function timeUpCheck(s) {
    )
   }
 
-  function gameLostMessage() {
+  const gameLostMessage = () => {
     console.log(correctChoice);
       return (
         <div className="pauseScreen"> 
@@ -203,6 +210,20 @@ function timeUpCheck(s) {
       
    }
 
+   const gameWonMessage = () => {
+    //  let won = new Audio(adhbhut);
+    //  won.play();
+    return (
+      <div className = "pauseScreen">  
+         <h1 > <span style={{color: "lightgreen"}}>Congratulations!!</span> You have completed the game 
+            and you have also won a cash prize of <span style={{color : 'orange'}}>₹1 crore!</span></h1>
+          <h2> Trivia </h2>
+          <p> {question.trivia} </p>
+          <h3> You take away <span style={{color : 'cyan'}}> ₹1 crore!</span> </h3>
+      </div>
+    )
+  }
+
   const resetStates = () => {
         if(rightAnswer) {
           setRightAnswer(false);
@@ -216,7 +237,7 @@ function timeUpCheck(s) {
       <div>
 
         {worthID === 1 ? boxHolder() : null}
-        {prevID < worthID ? putNextQuestion() : null}
+        {prevID < worthID && worthID < 16 ? putNextQuestion() : null}
         {resetStates()}
         {prevID === worthID && prevID > 1 ? boxHolder() : null}
 
@@ -224,6 +245,8 @@ function timeUpCheck(s) {
     )
       
   }
+
+
  
   return (
     <div className="game">
@@ -240,12 +263,12 @@ function timeUpCheck(s) {
                   Begin!!!
                 </Button>
                 </div>
-              ) : null}
+              ) : worthID > 15 ? gameWonMessage() : null}
    
+    
 
         {gameLost ? gameLostMessage() : continueGame()}
-      
-
+    
       </div>
 
       <Ladder worthID={worthID} worths={worths} />

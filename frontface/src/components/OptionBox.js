@@ -23,14 +23,16 @@ function OptionBox(props) {
 
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowOptionBox(true), TL);
-    return () => clearTimeout(timer);
+    console.log(TL + 7000);
+    const delay = TL + 7000;
+    const timer = setTimeout(() => setShowOptionBox(true), 1000); //change ms here.
+    return () => clearTimeout(timer); 
   }, []);
 
   useEffect(() => {
 
     if(cabClicked)  {
-      console.log("pausing chuklanion ki mkb");
+      console.log("pausing");
       lockSound.pause();
     }
  
@@ -71,8 +73,13 @@ function OptionBox(props) {
        setShowCAB(!showCAB);
        props.getResult(true);
       //  setRightAnswer(true);
-      let song = new Audio(clap);
-      song.play();
+      console.log("clapping hard!!!")
+      console.log(worthID);
+      if(worthID !== 15) {
+        let song = new Audio(clap);
+        song.play();
+      }
+     
      }
 
  }
@@ -121,7 +128,7 @@ function OptionBox(props) {
         <div>
 
            {displayButtons()}
-    
+     
           <div style={{textAlign: "center", border:"1px solid white", backgroundColor: "#283149" }}>
           
             {showCAB ? <Button style={{color: "#EFE9EF"}} onClick={checkAnswer}> Check Answer </Button>: 

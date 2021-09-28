@@ -30,12 +30,7 @@
   }
 
 
-.crossed-line {
-    text-decoration: line-through;
-    width: 25vw;
-    border-radius: 15px 50px;
-}
-  
+
   .ladder .title {
     padding: 20px;
     background: #111727;
@@ -48,6 +43,19 @@
     margin-left: 130px;
     color:aliceblue;
   }
+
+.crossed-line {
+    text-decoration: line-through;
+    width: 25vw;
+    border-radius: 15px 50px;
+}
+
+.crossed-line-checkpoint{
+  color:#111727;
+  text-decoration: line-through;
+  width: 25vw;
+  border-radius: 15px 50px;
+}
   
 .checkpoints {
     text-align: center;
